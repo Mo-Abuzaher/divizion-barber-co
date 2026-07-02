@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #182d22;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #c5a97c;
+    color: #182d22;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='time']::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(1) saturate(0.5) hue-rotate(0deg);
+    opacity: 0.5;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    outline: none;
+  }
+}
+
+@keyframes rotateBadge {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --nav-height: 72px;
+}
+
+.hero-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: var(--nav-height);
+  box-sizing: border-box;
+}
+
+.hero-badge {
+  top: 12px;
+  right: 12px;
+  width: 72px;
+  height: 72px;
+}
+
+@media (min-width: 640px) {
+  .hero-badge {
+    top: 16px;
+    right: 20px;
+    width: 88px;
+    height: 88px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-badge {
+    top: 28px;
+    right: 28px;
+    width: 110px;
+    height: 110px;
+  }
+}
