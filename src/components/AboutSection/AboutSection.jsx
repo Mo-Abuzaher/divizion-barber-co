@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { GREEN_MID, CREAM, TAN, GREEN_DARK } from "@/constants/theme";
-import { LOGO } from "@/constants/assets";
 
 export function AboutSection() {
   const ref = useRef(null);
@@ -153,7 +152,7 @@ export function AboutSection() {
               }}
             >
               <img
-                src={LOGO}
+                src="https://d2zdpiztbgorvt.cloudfront.net/region1/us/412740/biz_photo/7e7a991c54ed48dabcb64afb5f5e3f-divizion-barber-co-biz-photo-b18fb9705ed240e9a4c0bab66fa15e-booksy.jpeg?size=640x427"
                 alt="Divizion Barber Co"
                 style={{
                   width: "100%",

@@ -14,6 +14,9 @@ import { HERO_IMAGE } from "@/constants/assets";
 export function HeroSection({ onOpenBooking }) {
   const [slideIdx, setSlideIdx] = useState(0);
   const slide = HERO_SLIDES[slideIdx];
+  const goToPreviousSlide = () =>
+    setSlideIdx((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  const goToNextSlide = () => setSlideIdx((i) => (i + 1) % HERO_SLIDES.length);
 
   useEffect(() => {
     const t = setTimeout(
@@ -36,9 +39,9 @@ export function HeroSection({ onOpenBooking }) {
     >
       {/* LEFT PANEL */}
       <div
+        className="hero-desktop-panel"
         style={{
           width: "45%",
-          display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
           padding: "24px 0 32px 80px",
@@ -46,7 +49,6 @@ export function HeroSection({ onOpenBooking }) {
           zIndex: 2,
           overflowY: "auto",
         }}
-        className="hidden lg:flex"
       >
         {/* Vertical Social */}
         <div
@@ -245,11 +247,7 @@ export function HeroSection({ onOpenBooking }) {
             }}
           >
             <button
-              onClick={() =>
-                setSlideIdx(
-                  (i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length,
-                )
-              }
+              onClick={goToPreviousSlide}
               style={{
                 background: "none",
                 border: `1px solid rgba(197,169,124,0.3)`,
@@ -287,7 +285,7 @@ export function HeroSection({ onOpenBooking }) {
               </span>
             </span>
             <button
-              onClick={() => setSlideIdx((i) => (i + 1) % HERO_SLIDES.length)}
+              onClick={goToNextSlide}
               style={{
                 background: "none",
                 border: `1px solid rgba(197,169,124,0.3)`,
@@ -316,7 +314,15 @@ export function HeroSection({ onOpenBooking }) {
       </div>
 
       {/* RIGHT PANEL – Photo */}
-      <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+      <div
+        style={{
+          flex: "1 1 0",
+          minWidth: 0,
+          width: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         <div
           style={{
             position: "absolute",
@@ -329,7 +335,13 @@ export function HeroSection({ onOpenBooking }) {
         <img
           src={HERO_IMAGE}
           alt="Divizion Barbers"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            display: "block",
+            width: "100%",
+            maxWidth: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
         />
 
         {/* Circular stamp badge */}
@@ -412,15 +424,16 @@ export function HeroSection({ onOpenBooking }) {
 
         {/* Mobile / tablet hero text overlay */}
         <div
-          className="lg:hidden"
+          className="hero-mobile-overlay"
           style={{
             position: "absolute",
             inset: 0,
             zIndex: 4,
-            display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            padding: "16px 20px 32px",
+            width: "100%",
+            minWidth: 0,
+            padding: "16px clamp(16px, 5vw, 24px) 32px",
             boxSizing: "border-box",
           }}
         >
@@ -432,58 +445,136 @@ export function HeroSection({ onOpenBooking }) {
               inset: 0,
             }}
           />
-          <div style={{ position: "relative", zIndex: 2 }}>
-            <p
+          <div
+            style={{
+              position: "relative",
+              zIndex: 2,
+              minWidth: 0,
+              width: "100%",
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={slideIdx}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'Great Vibes', cursive",
+                    color: TAN,
+                    fontSize: "clamp(1.4rem, 5vw, 1.8rem)",
+                    marginBottom: 8,
+                    lineHeight: 1,
+                  }}
+                >
+                  {slide.tag}
+                </p>
+                <h1
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    color: CREAM,
+                    fontSize: "clamp(2rem, 8vw, 2.8rem)",
+                    fontWeight: 800,
+                    lineHeight: 1.05,
+                    textTransform: "uppercase",
+                    marginBottom: 16,
+                    overflowWrap: "break-word",
+                    whiteSpace: "pre-line",
+                  }}
+                >
+                  {slide.heading}
+                </h1>
+                <p
+                  style={{
+                    color: "rgba(240,229,208,0.65)",
+                    fontSize: "0.9rem",
+                    lineHeight: 1.7,
+                    marginBottom: 20,
+                    maxWidth: 420,
+                  }}
+                >
+                  {slide.sub}
+                </p>
+                <button
+                  onClick={onOpenBooking}
+                  style={{
+                    width: "min(100%, 176px)",
+                    padding: "13px 16px",
+                    background: TAN,
+                    color: GREEN_DARK,
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "0.9rem",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  BOOK YOUR SEAT
+                </button>
+              </motion.div>
+            </AnimatePresence>
+
+            <div
               style={{
-                fontFamily: "'Great Vibes', cursive",
-                color: TAN,
-                fontSize: "clamp(1.4rem, 5vw, 1.8rem)",
-                marginBottom: 8,
+                display: "flex",
+                alignItems: "center",
+                gap: 18,
+                marginTop: 24,
               }}
             >
-              {slide.tag}
-            </p>
-            <h1
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                color: CREAM,
-                fontSize: "clamp(2rem, 8vw, 2.8rem)",
-                fontWeight: 800,
-                lineHeight: 1.05,
-                textTransform: "uppercase",
-                marginBottom: 16,
-              }}
-            >
-              {slide.heading}
-            </h1>
-            <p
-              style={{
-                color: "rgba(240,229,208,0.65)",
-                fontSize: "0.9rem",
-                lineHeight: 1.7,
-                marginBottom: 20,
-                maxWidth: 420,
-              }}
-            >
-              {slide.sub}
-            </p>
-            <button
-              onClick={onOpenBooking}
-              style={{
-                padding: "13px 30px",
-                background: TAN,
-                color: GREEN_DARK,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: "0.9rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              BOOK YOUR SEAT
-            </button>
+              <button
+                onClick={goToPreviousSlide}
+                aria-label="Previous hero slide"
+                style={{
+                  background: "none",
+                  border: `1px solid rgba(197,169,124,0.35)`,
+                  color: TAN,
+                  width: 36,
+                  height: 36,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <span
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  color: CREAM,
+                  fontSize: "1.05rem",
+                  letterSpacing: "0.2em",
+                }}
+              >
+                0{slideIdx + 1}{" "}
+                <span style={{ color: `rgba(197,169,124,0.45)` }}>
+                  - 0{HERO_SLIDES.length}
+                </span>
+              </span>
+              <button
+                onClick={goToNextSlide}
+                aria-label="Next hero slide"
+                style={{
+                  background: "none",
+                  border: `1px solid rgba(197,169,124,0.35)`,
+                  color: TAN,
+                  width: 36,
+                  height: 36,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

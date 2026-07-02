@@ -11,12 +11,16 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     background: #182d22;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
   ::selection {
@@ -58,6 +62,14 @@
   box-sizing: border-box;
 }
 
+.hero-desktop-panel {
+  display: none;
+}
+
+.hero-mobile-overlay {
+  display: flex;
+}
+
 .hero-badge {
   top: 12px;
   right: 12px;
@@ -75,6 +87,14 @@
 }
 
 @media (min-width: 1024px) {
+  .hero-desktop-panel {
+    display: flex;
+  }
+
+  .hero-mobile-overlay {
+    display: none;
+  }
+
   .hero-badge {
     top: 28px;
     right: 28px;
